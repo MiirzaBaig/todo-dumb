@@ -1,98 +1,144 @@
-/* TodoApp.css */
+/* General styles */
 body {
+  font-family: Arial, sans-serif;
+  background-color: #7f7fa5;
   margin: 0;
-  font-family: "Arial", sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
-.container { 
-  max-width: 600px;
-  margin: 0 auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fefefebf;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-/* The above code functions the container to fit in the middle of the screen
-and below code is default setting of the container */
-/* 
+
 .container {
-  max-width: 600px;
-  margin: 50px auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: #b3d8e3;
   padding: 20px;
-} */
-
-h1 {
-  text-align: center;
-  color: #4CAF50;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 400px;
 }
 
-h3 {
-  margin-top: 20px;
-  color: #4CAF50;
-}
-
-
+/* Input styles */
 .input-container {
   display: flex;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 10px;
 }
 
-input[type="text"] {
-  flex: 1;
+.input-container input,
+.input-container select {
   padding: 10px;
+  font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
-button {
-  padding: 10px 20px;
-  margin-left: 10px;
+.input-container button {
+  padding: 10px;
   background-color: #4CAF50;
   color: white;
+  font-size: 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
 }
 
-button:hover {
+.input-container button:hover {
   background-color: #45a049;
 }
 
+/* Task list */
 ul {
   list-style: none;
   padding: 0;
 }
 
 li {
+  background: #343030;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-li:last-child {
-  border-bottom: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 li span {
-  flex: 1;
+  flex-grow: 1;
   cursor: pointer;
 }
 
 li button {
   background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 li button:hover {
   background-color: #c0392b;
 }
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .container {
+    width: 95%;
+  }
+
+  .input-container {
+    flex-direction: column;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  li button {
+    align-self: flex-end;
+  }
+}
+/* Task animation */
+.task-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.task-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 300ms ease-out;
+}
+.task-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.task-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 300ms ease-out;
+}
+.input-container button:hover {
+  background-color: #388e3c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+  transition: all 200ms ease-in-out;
+}
+
+li button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+  transition: all 200ms ease-in-out;
+}
+
+input:focus,
+select:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 4px #4CAF50;
+}
+

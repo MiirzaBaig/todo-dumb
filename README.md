@@ -4,18 +4,18 @@
 ## Project Phases and Task Checklist
 
 ### Phase 1: Beginner Level - To-Do List App
-- [ ] **Add, edit, delete, and mark tasks as completed**
-- [ ] **Store tasks in local storage or a database**
-- [ ] **Create a basic responsive UI**
-- [ ] **Enhance with drag-and-drop to reorder tasks**
-- [ ] **Add task categories (e.g., Work, Personal, Urgent)**
+- [X] **Add, edit, delete, and mark tasks as completed**
+- [X] **Store tasks in local storage or a database**
+- [X] **Create a basic responsive UI**
+- [X] **Enhance with drag-and-drop to reorder tasks**
+- [X] **Add task categories (e.g., Work, Personal, Urgent)**
 
 ### Phase 2: Intermediate Level - Note-Taking App
-- [ ] **Create, edit, and delete rich-text notes**
-- [ ] **Use a library like Quill.js or TipTap for the editor**
-- [ ] **Allow users to search and filter notes**
-- [ ] **Add tags or labels for notes**
-- [ ] **Sync notes across devices using a database**
+- [X] **Create, edit, and delete rich-text notes**
+- [x] **Use a library like Quill.js or TipTap for the editor**
+- [X] **Allow users to search and filter notes**
+- [X] **Add tags or labels for notes**
+- [X] **Sync notes across devices using a database**
 
 ### Phase 3: Advanced Level - Productivity Analytics Dashboard
 - [ ] **Visualize task completion trends using charts**

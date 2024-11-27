@@ -2,60 +2,47 @@ import { useState, useEffect } from "react";
 import "./TodoApp.css";
 import TaskList from "./TaskList";
 
-function App() {
-  const categories = ["Work", "Personal", "Shopping", "Others"];
-  const [task, setTask] = useState("");
-  const [category, setCategory] = useState(categories[0]);
-  const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem("tasks");
-    return savedTasks ? JSON.parse(savedTasks) : [];
-  });
+const App = () => {
+  const [tasks, setTasks] = useState([]);
 
-  const addTask = () => {
-    if (task.trim() === "") return;
-    const updatedTasks = [...tasks, { text: task, category, completed: false }];
-    setTasks(updatedTasks);
-    setTask("");
+  // Load tasks from localStorage on page load
+  useEffect(() => {
+    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    setTasks(savedTasks);
+  }, []);
+
+  // Save tasks to localStorage whenever tasks are updated
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  const addTask = (task) => {
+    setTasks([...tasks, task]);
   };
 
-  const toggleComplete = (index) => {
-    const updatedTasks = tasks.map((t, i) =>
-      i === index ? { ...t, completed: !t.completed } : t
+  const toggleComplete = (id) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
     );
     setTasks(updatedTasks);
   };
 
-  const deleteTask = (index) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
+  const deleteTask = (id) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
     setTasks(updatedTasks);
   };
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
-
   return (
-    <div className="container">
-      <h1>To-Do List</h1>
-      <div className="input-container">
-        <input
-          type="text"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-          placeholder="Enter a task"
-        />
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
-        <button onClick={addTask}>Add Task</button>
-      </div>
-      <TaskList tasks={tasks} toggleComplete={toggleComplete} deleteTask={deleteTask} />
+    <div className="App">
+      <h1>My To-Do List</h1>
+      {/* Render the task list with props */}
+      <TaskList
+        tasks={tasks}
+        toggleComplete={toggleComplete}
+        deleteTask={deleteTask}
+      />
     </div>
   );
-}
+};
 
 export default App;

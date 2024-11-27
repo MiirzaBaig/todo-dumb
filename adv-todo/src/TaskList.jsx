@@ -1,32 +1,46 @@
 import TaskItem from "./TaskItem";
-// Grouped task by category
-const TaskList = ({ tasks, toggleComplete, deleteTask }) => {
-  const groupedTasks = tasks.reduce((groups, task) => {
-    groups[task.category] = groups[task.category] || [];
-    groups[task.category].push(task);
-    return groups;
-  }, {});
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
+const TaskList = ({ tasks, toggleComplete, deleteTask, setTasks }) => {
+  const onDragEnd = (result) => {
+    const { destination, source } = result;
+
+    if (!destination) return;
+
+    const updatedTasks = Array.from(tasks);
+    const [removed] = updatedTasks.splice(source.index, 1);
+    updatedTasks.splice(destination.index, 0, removed);
+
+    setTasks(updatedTasks);  // Update the task order in the state
+  };
 
   return (
-    <div>
-      {Object.keys(groupedTasks).map((category, index) => (
-        <div key={index}>
-          <h3>{category}</h3>
-          <ul>
-            {groupedTasks[category].map((task, i) => (
-              <TaskItem
-                key={i}
-                task={task}
-                index={tasks.indexOf(task)} // Pass the correct index
-                toggleComplete={toggleComplete}
-                deleteTask={deleteTask}
-              />
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="tasks" type="task">
+        {(provided) => (
+          <ul
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            style={{ padding: 0 }}
+          >
+            {tasks.map((task, index) => (
+              <Draggable key={task.id} draggableId={task.id} index={index}>
+                {(provided) => (
+                  <TaskItem
+                    task={task}
+                    toggleComplete={toggleComplete}
+                    deleteTask={deleteTask}
+                    provided={provided}
+                    index={index}
+                  />
+                )}
+              </Draggable>
             ))}
+            {provided.placeholder}
           </ul>
-        </div>
-      ))}
-    </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
-
 export default TaskList;
