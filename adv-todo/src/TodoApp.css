@@ -5,7 +5,7 @@ body {
   background-color: #f9f9f9;
   color: #333;
 }
-.container {
+.container { 
   max-width: 600px;
   margin: 0 auto;
   position: absolute;
@@ -17,6 +17,8 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
+/* The above code functions the container to fit in the middle of the screen
+and below code is default setting of the container */
 /* 
 .container {
   max-width: 600px;
@@ -31,6 +33,12 @@ h1 {
   text-align: center;
   color: #4CAF50;
 }
+
+h3 {
+  margin-top: 20px;
+  color: #4CAF50;
+}
+
 
 .input-container {
   display: flex;

@@ -1,77 +1,61 @@
-import { useState } from 'react'
+import { useState, useEffect } from "react";
 import "./TodoApp.css";
-
+import TaskList from "./TaskList";
 
 function App() {
-  const [task, setTask] = useState(""); // To store the current input
-  const [tasks, setTasks] = useState([]); // To store the list of tasks
+  const categories = ["Work", "Personal", "Shopping", "Others"];
+  const [task, setTask] = useState("");
+  const [category, setCategory] = useState(categories[0]);
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  });
 
   const addTask = () => {
-    if (task.trim() === "") return; // Prevent empty tasks
-    setTasks([...tasks, { text: task, completed: false }]);
-    setTask(""); // Clear input
+    if (task.trim() === "") return;
+    const updatedTasks = [...tasks, { text: task, category, completed: false }];
+    setTasks(updatedTasks);
+    setTask("");
   };
+
   const toggleComplete = (index) => {
     const updatedTasks = tasks.map((t, i) =>
       i === index ? { ...t, completed: !t.completed } : t
     );
     setTasks(updatedTasks);
   };
+
   const deleteTask = (index) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index); // Remove task at the specified index
+    const updatedTasks = tasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
   };
 
-  
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
- 
   return (
-    <div className='container'>
+    <div className="container">
       <h1>To-Do List</h1>
-      <div className="input-container"></div>
-      <input
-        type="text"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        placeholder="Enter a task"
-      />
-      <button onClick={addTask}>Add Task</button>
-
-      <ul>
-        {tasks.map((t, index) => (
-          <li
-            key={index}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              textDecoration: t.completed ? "line-through" : "none",
-              cursor: "pointer"
-
-            }}
-          >
-            <span onClick={() => toggleComplete(index)}>{t.text}</span>
-            <button onClick={() => deleteTask(index)} style={{ marginLeft: "10px" }}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div className="input-container">
+        <input
+          type="text"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          placeholder="Enter a task"
+        />
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+        <button onClick={addTask}>Add Task</button>
+      </div>
+      <TaskList tasks={tasks} toggleComplete={toggleComplete} deleteTask={deleteTask} />
     </div>
-   );  
-            
-            
-  }
+  );
+}
 
-// function App() {
-//   const [task, setTask] = useState(""); // To store the current input
-//   const [tasks, setTasks] = useState([]); // To store the list of tasks 
-//   const addTask = (){
-//     if(task.trim() === "") return; // Prevent empty tasks
-//     setTask([...tasks, {text: task, completed: false}]);
-//     setTask(""); 
-//   }
-// }
-
-
-export default App
+export default App;
